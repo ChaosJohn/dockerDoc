@@ -1,0 +1,8 @@
+docker swarm init 
+docker swarm join-token manager
+docker swarm leave [-f]
+docker node ls
+docker node inspect <node ID>
+docker stack ls
+docker stack ls <appname>
+docker stack service <appname>
