@@ -1,0 +1,34 @@
+docker run -d -P --name web -v /webapp training/webapp python app.py 
+
+docker run -d -P --name web -v /src/webapp:/webapp training/webapp python app.py 
+
+docker run -d -P --name web -v /src/webapp:/webapp:ro training/webapp python app.py 
+
+docker run -d -P --name web -v /src/webapp:/webapp:cached training/webapp python app.py 
+
+docker run -d -P \
+  --volume-driver=convoy \
+  -v my-named-volume:/webapp \
+  --name web training/webapp python app.py 
+
+docker volume create -d convoy --opt o=size=20GB (??--name) my-named-volume 
+docker run -d -P \
+  -v my-named-volume:/webapp \ 
+  --name web training/webapp python app.py 
+
+docker run --rm -it -v ~/.bash_history:/root/.bash_history ubuntu /bin/bash 
+
+docker create -v /dbdata --name dbstore training/postgres /bin/true
+docker run -d --volumes-from dbstore --name db1 training/postgres 
+docker run -d --volumes-from dbstore --name db2 training/postgres 
+docker run -d --volumes-from db1 --name db3 training/postgres 
+
+docker run --rm --volume-from dbstore -v $(pwd):/backup ubuntu tar xvzf /backup/backup.tar.gz /dbdata 
+docker run -v /dbdata --name dbstore2 ubuntu /bin/bash 
+docker run --rm --volume-from dbstore2 -v $(pwd):/backup ubuntu bash -c "cd /dbdata && tar xvzf /backup/backup.tar.gz --strip 1"
+
+docker volume ls 
+
+docker run --rm -v /foo -v awesome:/bar busybox top 
+
+docker volume prune
