@@ -18,4 +18,7 @@ RUN apt-get update && apt-get install -y \
   s3cmd=1.1.* \
 && rm -rf /var/lib/apt/lists/* 
 
-
+#PIPE[using "set -o pipfail" to ensure that an unexpected error prevents the build from inadvertently succeeding]
+RUN wget -O - https://some.site | wc -l > /tmp/tmpFile 
+RUN set -o pipefail && RUN wget -O - https://some.site | wc -l > /tmp/tmpFile 
+RUN ["/bin/bash", "-c", "RUN wget -O - https://some.site | wc -l > /tmp/tmpFile"]
