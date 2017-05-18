@@ -1,6 +1,8 @@
 #FROM 
 
+
 #LABEL 
+
 
 #RUN 
 RUN apt-get update && apt-get install -y \ 
@@ -18,10 +20,12 @@ RUN apt-get update && apt-get install -y \
   s3cmd=1.1.* \
 && rm -rf /var/lib/apt/lists/* 
 
+
 #PIPE[using "set -o pipfail" to ensure that an unexpected error prevents the build from inadvertently succeeding]
 RUN wget -O - https://some.site | wc -l > /tmp/tmpFile 
 RUN set -o pipefail && RUN wget -O - https://some.site | wc -l > /tmp/tmpFile 
 RUN ["/bin/bash", "-c", "RUN wget -O - https://some.site | wc -l > /tmp/tmpFile"]
+
 
 #CMD 
 CMD ["executable", "param1", "param2"] 
@@ -30,7 +34,9 @@ CMD ["perl", "-de0"]
 CMD ["python"] 
 CMD ["php", "-a"] 
 
+
 #EXPOSE 
+
 
 #ENV 
 ENV PATH /usr/local/nginx/bin:$PATH 
@@ -38,3 +44,19 @@ ENV PG_MAJOR 9.3
 ENV PG_VERSION 9.3.4 
 RUN curl -SL http://example.com/postgres-$PG_VERSION.tar.xz | tar -xJC /usr/src/postgress && ... 
 ENV PATH /usr/local/postgres-$PG_MAJOR/bin:PATH
+
+
+#ADD or COPY 
+COPY . /tmp 
+ADD rootfs.tar.xz /
+ADD http://example.com/big.tar.xz /usr/src/things/
+
+
+#ENTRYPOINT 
+ENTRYPOINT ["s3cmd"]
+CMD ["--help"]
+docker run s3cmd # to show the command's help 
+docker run s3cmd ls s3://mybucket # to execute a command 
+
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"] 
