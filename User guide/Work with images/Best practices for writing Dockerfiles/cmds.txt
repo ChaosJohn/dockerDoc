@@ -60,3 +60,16 @@ docker run s3cmd ls s3://mybucket # to execute a command
 
 COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"] 
+
+
+#VOLUME
+
+
+#USER
+RUN groupadd -r postgres && useradd -r -g postgres postgres 
+
+
+#WORKDIR 
+
+
+#ONBUILD
