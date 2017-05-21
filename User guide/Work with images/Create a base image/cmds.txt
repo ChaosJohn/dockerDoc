@@ -1,0 +1,4 @@
+sudo debootstrap raring raring > /dev/null 
+sudo tar -C raring -C . | docker import - raring 
+
+docker run raring cat /etc/lsb-release 
