@@ -1,5 +1,11 @@
+#Create a full image using tar
 sudo debootstrap raring raring > /dev/null 
 sudo tar -C raring -C . | docker import - raring 
 
 docker run raring cat /etc/lsb-release 
 
+
+#Creating a simple base image using scratch
+FROM scratch 
+ADD hello / 
+CMD ["/hello"] 
