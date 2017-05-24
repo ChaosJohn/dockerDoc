@@ -1,0 +1,15 @@
+aufs > btrfs/zfs > overlay2 > overlay > devicemapper
+
+aufs => Ubuntu & Debian 
+btrfs => SLES
+
+Mac & Win => aufs[default in stable release]/overlay2[default in edge release]/overlay[not recommended]
+
+
+overlay/overlay2  => ext4, xfs 
+aufs              => ext4, xfs 
+devicemapper      => direct-lvm 
+btrfs             => btrfs 
+zfs               => zfs
+
+$ docker info
