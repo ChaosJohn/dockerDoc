@@ -1,0 +1,9 @@
+docker network ls 
+
+CTRL-p CTRL-q # detach from the container and leave it running 
+
+docker network inspect bridge 
+
+docker attach container1 
+
+
