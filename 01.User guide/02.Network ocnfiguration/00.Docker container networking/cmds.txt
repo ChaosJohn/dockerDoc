@@ -6,4 +6,13 @@ docker network inspect bridge
 
 docker attach container1 
 
+ping container name
+  -- not working in default bridge network
+  -- working in user-defined network(may only be bridge)
 
+docker network connect network-name container-name
+
+docker network disconnect network-name container-name 
+
+docker run -it -p 80 nginx      # 0.0.0.0:xxxxx->80
+docker run -it -p 80:8080 nginx # 0.0.0.0:80->8080
