@@ -16,3 +16,45 @@ docker network create -d overlay \
   --aux-address="my-router=192.168.1.5" --aux-address="my-switch=192.168.1.6" \ 
   --aux-address="my-printer=192.170.1.5" --aut-address="my-nas=192.170.1.6" \ 
   my-multihost-network 
+
+? docker network create -o "com.docker.network.bridge.host_binding_ipv4"="172.23.0.1" my-network 
+------------------------------------------------------------------------------------------------
+[
+    {
+        "Name": "my-network",
+        "Id": "da61e0e6c940760086bfbea19a115936c53fcc9fab1ac4073aa6327e8b2e4134",
+        "Created": "2017-06-17T14:32:00.634952101+08:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.21.0.0/16",
+                    "Gateway": "172.21.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Containers": {},
+        "Options": {
+            "com.docker.network.bridge.host_binding_ipv4": "172.23.0.1"
+        },
+        "Labels": {}
+    }
+]
+------------------------------------------------------------------------------------------------
+
+? docker run -d -P --name redis --network=my-network redis 
+----------------------------------------------------------
+docker: Error response from daemon: driver failed programming external connectivity on endpoint redis (913429a7c387fad316e3876e47f5980d5d2d0b2efb336a542869241cb79682f5): Error starting userland proxy: listen tcp 172.23.0.1:32797: bind: cannot assign requested address.
+----------------------------------------------------------
+
+docker inspect --format='' container3 | python -m json.tool
+
+docker run --network=isolated_nw -itd --name=container4 --link container5:c5 busybox
+docker run --network=isolated_nw -itd --name=container4 --link container4:c4 busybox
+docker run --network=isolated_nw -itd --name=container6 --network-alias app busybox
