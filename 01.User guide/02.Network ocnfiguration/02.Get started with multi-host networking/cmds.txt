@@ -1,1 +1,12 @@
-# Overlay network and swarm mode 
+## Overlay network and swarm mode 
+# Create an overlay network `my-multi-host-network`.
+$ docker network create \
+  --driver overlay \
+  --subnet 10.0.9.0/24 \
+  my-multi-host-network
+
+# Create an nginx service and extend the my-multi-host-network to nodes where
+# the service's tasks run.
+$ docker service create --replicas 2 --network my-multi-host-network --name my-web nginx
+
+## Overlay networking with an external key-value store <= have problem on docker-machine[Mac OS X]
